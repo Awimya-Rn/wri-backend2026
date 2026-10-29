@@ -42,7 +42,7 @@ Alur sederhana saat membuka read.php:
 4. PHP menyusun hasilnya menjadi HTML.
 5. Server mengirim HTML itu ke browser, dan browser menampilkannya sebagai halaman.
 
-Karena itu file PHP tidak bisa dibuka dengan klik dua kali. File harus dijalankan lewat server lokal seperti XAMPP, dan dibuka lewat alamat seperti `http://localhost/absensi/read.php`.
+Karena itu file PHP tidak bisa dibuka dengan klik dua kali. File harus dijalankan lewat server lokal seperti laragon, dan dibuka lewat alamat seperti `http://localhost/absensi/read.php`.
 
 Dalam materi ini pekerjaan dibagi menjadi dua sisi:
 
@@ -122,7 +122,7 @@ Sebelum PHP bisa menyimpan atau mengambil data, ia harus terhubung ke database. 
 
 phpMyAdmin adalah aplikasi web untuk mengelola database MySQL lewat tampilan, tanpa mengetik perintah di terminal. Perlu dipahami bahwa phpMyAdmin tidak "disambungkan" ke PHP. Yang disambungkan ke PHP adalah database MySQL-nya, sedangkan phpMyAdmin dipakai untuk membuat dan melihat isi database tersebut.
 
-1. Pasang XAMPP, lalu buka XAMPP Control Panel dan tekan **Start** pada **Apache** dan **MySQL**. Keduanya harus berwarna hijau.
+1. Pasang laragon, lalu buka laragon Control Panel dan tekan **Start** pada **Apache** dan **MySQL**. Keduanya harus berwarna hijau.
 2. Buka `http://localhost/phpmyadmin` di browser.
 3. Klik **New** (atau **Baru**) di panel kiri, isi nama database dengan `db_absensi`, pilih collation `utf8mb4_general_ci`, lalu klik **Create**.
 4. Pilih database `db_absensi`, buka tab **SQL**, tempel perintah berikut, lalu klik **Go**:
@@ -138,17 +138,17 @@ CREATE TABLE tb_absensi (
 ```
 
 5. Tabel `tb_absensi` sekarang muncul di panel kiri. Kolom `id` terisi otomatis karena memakai `AUTO_INCREMENT`.
-6. Simpan folder proyek di dalam folder `htdocs` milik XAMPP, misalnya `C:\xampp\htdocs\absensi`. Dengan begitu proyek bisa dibuka di `http://localhost/absensi/`.
+6. Simpan folder proyek di dalam folder `htdocs` milik laragon, misalnya `C:\xampp\htdocs\absensi`. Dengan begitu proyek bisa dibuka di `http://localhost/absensi/`.
 
 ### Langkah 2: Menulis koneksi di PHP
 
-Nilai di koneksi.php harus sama dengan yang ada di phpMyAdmin dan XAMPP:
+Nilai di koneksi.php harus sama dengan yang ada di phpMyAdmin dan laragon:
 
-| Di koneksi.php | Nilai pada XAMPP bawaan | Asalnya dari |
+| Di koneksi.php | Nilai pada laragon bawaan | Asalnya dari |
 | --- | --- | --- |
 | `$host` | `localhost` | Server MySQL berjalan di komputer sendiri |
 | `$user` | `root` | Pengguna bawaan MySQL, sama dengan yang dipakai untuk masuk phpMyAdmin |
-| `$pass` | kosong (`""`) | XAMPP bawaan tidak memberi password pada root |
+| `$pass` | kosong (`""`) | laragon bawaan tidak memberi password pada root |
 | `$db` | `db_absensi` | Nama database yang dibuat di langkah 1 |
 
 PDO adalah cara PHP berbicara dengan banyak jenis database. Hasil koneksinya disimpan di variabel `$pdo`.
@@ -167,7 +167,7 @@ Setiap bagian punya arti:
 | Bagian | Artinya |
 | --- | --- |
 | `$host` | Lokasi server database, di komputer sendiri berarti localhost |
-| `$user` dan `$pass` | Nama pengguna dan kata sandi MySQL (di XAMPP bawaan: root dan kosong) |
+| `$user` dan `$pass` | Nama pengguna dan kata sandi MySQL (di laragon bawaan: root dan kosong) |
 | `$db` | Nama database yang dipakai, yaitu db_absensi |
 | `new PDO(...)` | Membuat sambungan ke database |
 
@@ -187,9 +187,9 @@ Jika koneksi gagal, periksa pesan errornya:
 
 | Pesan atau gejala | Penyebab | Cara memperbaiki |
 | --- | --- | --- |
-| Connection refused | MySQL belum dijalankan | Tekan **Start** pada MySQL di XAMPP Control Panel |
+| Connection refused | MySQL belum dijalankan | Tekan **Start** pada MySQL di laragon Control Panel |
 | Unknown database `db_absensi` | Database belum dibuat atau namanya berbeda | Buat database di phpMyAdmin, samakan dengan `$db` |
-| Access denied for user | `$user` atau `$pass` salah | Samakan dengan akun MySQL; pada XAMPP bawaan: `root` dan password kosong |
+| Access denied for user | `$user` atau `$pass` salah | Samakan dengan akun MySQL; pada laragon bawaan: `root` dan password kosong |
 | Table `tb_absensi` doesn't exist | Tabel belum dibuat | Jalankan perintah `CREATE TABLE` di tab SQL phpMyAdmin |
 | MySQL tidak mau start | Port 3306 dipakai program lain | Matikan program tersebut, atau ganti port MySQL lalu tambahkan `port=3307` di DSN, misalnya `mysql:host=localhost;port=3307;dbname=$db` |
 
@@ -358,7 +358,7 @@ Satu hal lagi untuk diingat. Saat data dicetak ke halaman (`<?= $data['nama']; ?
 
 | Gejala | Penyebab yang sering terjadi | Cara memperbaiki |
 | --- | --- | --- |
-| Muncul tulisan kode PHP mentah di browser | File dibuka dengan klik dua kali, bukan lewat server | Jalankan Apache di XAMPP, buka lewat `http://localhost/...` |
+| Muncul tulisan kode PHP mentah di browser | File dibuka dengan klik dua kali, bukan lewat server | Jalankan Apache di laragon, buka lewat `http://localhost/...` |
 | Undefined variable `$koneksi` atau `$pdo` | Nama variabel koneksi tidak sama dengan yang dibuat di koneksi.php | Pakai nama variabel yang sama persis di semua file |
 | Undefined array key `nama` | Nilai `name` di HTML berbeda dengan kunci di `$_POST` atau `$_GET` | Samakan penulisannya, termasuk huruf besar dan kecil |
 | Data tidak masuk ke database | Form memakai `method="GET"` tetapi dibaca dengan `$_POST` | Samakan method form dengan `$_POST` atau `$_GET` |
